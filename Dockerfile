@@ -4,31 +4,30 @@ MAINTAINER x3y changhongbo@gmail.com
 
 ENV LLVM_VERSION=8
 
-ADD my.sources.list
+ADD my.sources.list  /
 
 # Pre-Req Repos
 RUN apt-get update \
  && apt-get install -y software-properties-common \
-  gnupg \
-  wget \
+            gnupg \
+            wget \
  # Install pre-reqs
  && mv my.sources.list /etc/apt/sources.list.d/ \
  && wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -  \
  && apt-get update \
  && apt-get install -y ca-certificates build-essential \
  # LLVM
- && apt-get install -y \
-  libllvm-7-ocaml-dev libllvm7 llvm-7 llvm-7-dev llvm-7-doc llvm-7-examples llvm-7-runtime \
+ libllvm-$LLVM_VERSION-ocaml-dev libllvm$LLVM_VERSION llvm-$LLVM_VERSION llvm-$LLVM_VERSION-dev llvm-$LLVM_VERSION-doc llvm-$LLVM_VERSION-examples llvm-$LLVM_VERSION-runtime \
  # Clang and co
- && apt-get install -y \
-  clang-7 clang-tools-7 clang-7-doc libclang-common-7-dev libclang-7-dev libclang1-7 clang-format-7 python-clang-7 \
+ clang-$LLVM_VERSION clang-tools-$LLVM_VERSION clang-$LLVM_VERSION-doc libclang-common-$LLVM_VERSION-dev libclang-$LLVM_VERSION-dev libclang1-$LLVM_VERSION clang-format-$LLVM_VERSION python-clang-$LLVM_VERSION \
  # libfuzzer
- && apt-get install -y libfuzzer-7-dev \
+ libfuzzer-$LLVM_VERSION-dev \
  # lldb
- && apt-get install -y lldb-7 \
+ lldb-$LLVM_VERSION \
  # lld (linker)
- && apt-get install -y lld-7 \
+ lld-$LLVM_VERSION \
  # libc++
- && apt-get install -y libc++-7-dev libc++abi-7-dev \
+ libc++-$LLVM_VERSION-dev libc++abi-$LLVM_VERSION-dev \
  # OpenMP
- && apt-get install -y libomp-7-dev
+ libomp-$LLVM_VERSION-dev \
+ && rm -rf /var/lib/apt/lists/*
